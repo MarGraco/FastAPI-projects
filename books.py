@@ -49,6 +49,10 @@ async def update_book(book_name: str, book_title: str, book_author: str):
     BOOKS[book_name] = book_information
     return book_information
 
+@app.delete("/{book_name}")
+async def delete_book(book_name):
+    del BOOKS[book_name]
+    return f'Book {book_name} deleted.'
 
 @app.get("/directions/{direction_name}")
 async def get_direction(direction_name: DirectionName):
@@ -68,3 +72,13 @@ async def read_favorite_book():
 @app.get("/books/{book_id}")
 async def read_book(book_id: int):
     return {"book_title": book_id}
+
+
+@app.get("/assignment/")
+async def read_book_assignment(book_name: str):
+    return BOOKS[book_name]
+
+@app.delete("/assignment/")
+async def detele_book_assignment(book_name: str):
+    del BOOKS[book_name]
+    return BOOKS
