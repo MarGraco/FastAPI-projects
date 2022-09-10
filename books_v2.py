@@ -1,6 +1,5 @@
 from typing import Optional
-from venv import create
-from fastapi import FastAPI, HTTPException, Request, status
+from fastapi import FastAPI, HTTPException, Request, status, Form, Header
 from pydantic import BaseModel, Field
 from uuid import UUID
 from starlette.responses import JSONResponse
@@ -53,13 +52,19 @@ async def negative_number_exception_handler(request: Request,
                             f"books? You need to read more!"}
     )
 
+@app.post("/books/login")
+async def book_login(username: str = Form(), password: str = Form()):
+    return {"username": username, "password": password}
+
+@app.get("/header")
+async def read_header(random_header: Optional[str] = None):
+    return {"Random-Header": random_header}
 
 @app.get("/")
 async def read_all_books(books_to_return: Optional[int] = None):
 
     if books_to_return and books_to_return < 0:
         raise NegativeNumberException(books_to_return=books_to_return)
-
 
     if len(BOOKS) < 1:
         create_books_no_api()
