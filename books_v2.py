@@ -57,7 +57,7 @@ async def book_login(book_id: int, username: Optional[str] = Header(None),
                         password: Optional[str] = Header(None)):
     if username == 'FastAPIUser' and password == 'test1234':
         return BOOKS[book_id]
-        
+
     return 'Invalid User'
 
 @app.get("/header")
